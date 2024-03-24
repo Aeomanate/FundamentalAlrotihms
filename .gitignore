@@ -1,0 +1,9 @@
+# User-specific stuff
+.idea/*
+
+# CMake
+cmake-build-*/
+
+# Output
+RuntimeOutput/*
+

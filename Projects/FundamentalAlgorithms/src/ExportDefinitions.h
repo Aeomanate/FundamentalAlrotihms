@@ -1,0 +1,10 @@
+#ifndef ALGORITHMSONQT_EXPORTDEFINITIONS_H
+#define ALGORITHMSONQT_EXPORTDEFINITIONS_H
+
+#ifdef  PROJECTLIBRARY_EXPORTS
+#define ALGO_API __declspec(dllexport)
+#else
+#define ALGO_API __declspec(dllimport)
+#endif
+
+#endif //ALGORITHMSONQT_EXPORTDEFINITIONS_H
