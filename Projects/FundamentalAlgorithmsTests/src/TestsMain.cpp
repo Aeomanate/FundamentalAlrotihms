@@ -3,5 +3,5 @@
 
 TEST(HelloTest, BasicAssertions)
 {
-    ASSERT_EQ(0, FundamentalAlgorithms::Ret1());
+    ASSERT_EQ(1, FundamentalAlgorithms::Ret1());
 }
