@@ -2,35 +2,38 @@
 #include <string>
 #include <algorithm>
 #include <numeric>
+#include <ranges>
 
-void QuickFind::InputElements(size_t elementsCount, ReaderF&& readNextElement)
+void QuickFind::InputElements(size_t elementsCount, ReaderF&& readNextPair)
 {
-    id.resize(elementsCount);
+    groups.resize(elementsCount);
     // Creating linking groups
-    std::iota(std::begin(id), std::end(id), 0);
+    std::ranges::iota(groups, 0);
 
-    for(std::optional<Connection> connection { }; (connection = readNextElement()); )
+    for(std::weakly_incrementable auto i : std::views::iota(0u, groups.size()))
     {
-        ElementType firstElementLinkingGroup = id[connection->first];
-        if(firstElementLinkingGroup == id[connection->second])
+        ElementPair elementPair = readNextPair();
+
+        ElementType firstGroup = groups[elementPair.first];
+        if(firstGroup == groups[elementPair.second])
         {
+            // Already linked
             continue;
         }
 
-        // Redefine for selected element his linking group
-        for(ElementType& curElementLinkingGroup: id )
+        // Group which second element belongs
+        // will be replaced group which first element belongs
+        for(ElementType& curGroup: groups)
         {
-            if(curElementLinkingGroup != firstElementLinkingGroup)
+            if(curGroup == firstGroup)
             {
-                continue;
+                curGroup = groups[elementPair.second];
             }
-
-            curElementLinkingGroup = connection->second;
         }
     }
 }
 
 bool QuickFind::IsConnected(size_t i, size_t j)
 {
-    return id[i] == id[j];
+    return groups[i] == groups[j];
 }
